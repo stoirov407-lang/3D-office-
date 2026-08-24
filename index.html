@@ -35,7 +35,7 @@
 
     /* Модальное окно */
     .modal { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(4px); justify-content: center; align-items: center; z-index: 100; }
-    .modal-content { background: #ffffff; padding: 25px; border-radius: 12px; width: 360px; display: flex; flex-direction: column; gap: 15px; border: 1px solid #e2e8f0; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); }
+    .modal-content { background: #ffffff; padding: 25px; border-radius: 12px; width: 360px; display: flex; flex-direction: column; gap: 15px; border: 1px solid #e2e8f0; box-shadow: 0 10px 25px -5px rgba(2,6,23,0.1); }
     .modal-content h3 { color: #0f172a; font-size: 18px; }
     .input-group { display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #64748b; font-weight: 600; }
     .input-group input, .input-group select { padding: 10px; border-radius: 6px; border: 1px solid #cbd5e1; background: #ffffff; color: #0f172a; outline: none; font-size: 14px; }
@@ -91,8 +91,10 @@
         </select>
       </div>
       <div class="input-group">
-        <label>API-ключ OpenAI (Опционально)</label>
-        <input type="password" id="agent-key" placeholder="sk-proj-...">
+        <label>OpenAI / API интеграция</label>
+        <div style="padding:10px; border-radius:6px; background:#fff3bf; border:1px solid #f1c40f; color:#7a4f01; font-size:13px;">
+          Никогда не вставляйте рабочие секреты в браузер. Для интеграции OpenAI используйте серверную прокси, которая хранит ключи безопасно на сервере.
+        </div>
       </div>
       <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 10px;">
         <button class="secondary" onclick="closeHireModal()">Отмена</button>
@@ -148,6 +150,7 @@
 
       renderer = new THREE.WebGLRenderer({ antialias: true });
       renderer.setSize(container.clientWidth, container.clientHeight);
+      renderer.setPixelRatio(window.devicePixelRatio || 1);
       container.appendChild(renderer.domElement);
 
       window.addEventListener('resize', onWindowResize);
@@ -230,9 +233,8 @@
 
       const name = document.getElementById('agent-name').value || 'Сотрудник #' + (state.agents.length + 1);
       const role = document.getElementById('agent-role').value;
-      const key = document.getElementById('agent-key').value;
 
-      state.agents.push({ name, role, key });
+      state.agents.push({ name, role });
 
       renderAgents3D();
       updateUI();
