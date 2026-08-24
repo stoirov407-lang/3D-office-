@@ -3,55 +3,54 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI Office Platform 3D</title>
+  <title>3D AI Office Platform</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-    body { background-color: #0f172a; color: #f8fafc; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Inter, sans-serif; }
+    body { background-color: #f8fafc; color: #0f172a; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
 
     /* Верхняя панель */
-    header { background: #1e293b; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; }
-    .stats { display: flex; gap: 20px; align-items: center; }
-    .stat-card { background: #0f172a; padding: 8px 16px; border-radius: 8px; border: 1px solid #334155; font-size: 14px; }
-    .stat-card span { font-weight: bold; color: #38bdf8; }
+    header { background: #ffffff; padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+    header h2 { font-size: 18px; color: #0f172a; font-weight: 700; }
+    .stats { display: flex; gap: 15px; align-items: center; }
+    .stat-card { background: #f1f5f9; padding: 8px 16px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 14px; font-weight: 600; color: #475569; }
+    .stat-card span { color: #0284c7; }
 
     /* Главная рабочая область */
     main { flex: 1; display: flex; position: relative; }
-    #canvas-container { flex: 1; width: 100%; height: 100%; background: #000; }
+    #canvas-container { flex: 1; width: 100%; height: 100%; background: #f1f5f9; }
 
     /* Боковая панель логов */
-    aside { width: 320px; background: #1e293b; border-left: 1px solid #334155; display: flex; flex-direction: column; }
-    .aside-title { padding: 15px; font-size: 14px; font-weight: bold; border-bottom: 1px solid #334155; color: #94a3b8; text-transform: uppercase; }
+    aside { width: 320px; background: #ffffff; border-left: 1px solid #e2e8f0; display: flex; flex-direction: column; }
+    .aside-title { padding: 15px; font-size: 13px; font-weight: 700; border-bottom: 1px solid #e2e8f0; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
     #logs-list { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; font-size: 13px; }
-    .log-item { background: #0f172a; padding: 10px; border-radius: 6px; border-left: 3px solid #38bdf8; }
-    .log-time { font-size: 10px; color: #64748b; margin-bottom: 4px; }
+    .log-item { background: #f8fafc; padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0; border-left: 4px solid #0284c7; color: #334155; }
+    .log-time { font-size: 11px; color: #94a3b8; margin-bottom: 4px; font-weight: 600; }
 
     /* Нижняя панель управления */
-    footer { background: #1e293b; padding: 15px 20px; display: flex; justify-content: center; gap: 15px; border-top: 1px solid #334155; }
-    button { background: #0284c7; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 600; transition: 0.2s; }
-    button:hover { background: #0369a1; }
-    button.secondary { background: #334155; }
-    button.secondary:hover { background: #475569; }
+    footer { background: #ffffff; padding: 15px 25px; display: flex; justify-content: center; gap: 15px; border-top: 1px solid #e2e8f0; }
+    button { background: #0f172a; color: white; border: none; padding: 10px 22px; border-radius: 8px; cursor: pointer; font-weight: 600; transition: 0.2s; font-size: 14px; }
+    button:hover { background: #1e293b; }
+    button.secondary { background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; }
+    button.secondary:hover { background: #e2e8f0; }
 
     /* Модальное окно */
-    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; z-index: 100; }
-    .modal-content { background: #1e293b; padding: 25px; border-radius: 12px; width: 350px; display: flex; flex-direction: column; gap: 15px; border: 1px solid #334155; }
-    .modal-content h3 { color: #f8fafc; }
-    .input-group { display: flex; flex-direction: column; gap: 5px; font-size: 12px; color: #94a3b8; }
-    .input-group input, .input-group select { padding: 8px; border-radius: 6px; border: 1px solid #334155; background: #0f172a; color: white; outline: none; }
+    .modal { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(4px); justify-content: center; align-items: center; z-index: 100; }
+    .modal-content { background: #ffffff; padding: 25px; border-radius: 12px; width: 360px; display: flex; flex-direction: column; gap: 15px; border: 1px solid #e2e8f0; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); }
+    .modal-content h3 { color: #0f172a; font-size: 18px; }
+    .input-group { display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #64748b; font-weight: 600; }
+    .input-group input, .input-group select { padding: 10px; border-radius: 6px; border: 1px solid #cbd5e1; background: #ffffff; color: #0f172a; outline: none; font-size: 14px; }
+    .input-group input:focus, .input-group select:focus { border-color: #0284c7; }
   </style>
   
-  <!-- Подключаем Three.js для 3D-графики -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
 
   <!-- Верхняя панель -->
   <header>
-    <h2>🏢 AI Office Simulator</h2>
+    <h2>🏢 AI Virtual Office</h2>
     <div class="stats">
-      <div class="stat-card">Монеты: <span id="money-val">150</span> 🪙</div>
-      <div class="stat-card">Доход: <span id="income-val">+0.0</span>/с</div>
-      <div class="stat-card">Мест: <span id="agents-count">0</span>/<span id="max-agents">3</span></div>
+      <div class="stat-card">Команда: <span id="agents-count">0</span>/<span id="max-agents">5</span></div>
     </div>
   </header>
 
@@ -59,37 +58,36 @@
   <main>
     <div id="canvas-container"></div>
     <aside>
-      <div class="aside-title">Лог активности AI</div>
+      <div class="aside-title">Активность сотрудников</div>
       <div id="logs-list">
         <div class="log-item">
           <div class="log-time">Система</div>
-          Офис открыт. Намните агентов для работы!
+          Офис готов к работе. Добавьте первого сотрудника!
         </div>
       </div>
     </aside>
   </main>
 
-  <!-- Нижние кнопки -->
+  <!-- Нижняя панель -->
   <footer>
-    <button onclick="openHireModal()">➕ Нанять агента</button>
-    <button class="secondary" onclick="collectBonus()">💰 Собрать бонус</button>
+    <button onclick="openHireModal()">➕ Добавить агента</button>
   </footer>
 
-  <!-- Модалка найма -->
+  <!-- Модальное окно -->
   <div class="modal" id="hire-modal">
     <div class="modal-content">
-      <h3>Найм нового AI-Агента</h3>
+      <h3>Новый AI-Сотрудник</h3>
       <div class="input-group">
-        <label>Имя агента</label>
+        <label>Имя сотрудника</label>
         <input type="text" id="agent-name" placeholder="Например: Алексей">
       </div>
       <div class="input-group">
-        <label>Роль</label>
+        <label>Должность / Роль</label>
         <select id="agent-role">
-          <option value="developer">💻 Разработчик (+2.0/с)</option>
-          <option value="designer">🎨 Дизайнер (+1.5/с)</option>
-          <option value="pm">📋 PM (+3.0/с)</option>
-          <option value="devops">⚙️ DevOps (+2.5/с)</option>
+          <option value="developer">💻 Разработчик</option>
+          <option value="designer">🎨 Дизайнер</option>
+          <option value="pm">📋 Project Manager</option>
+          <option value="devops">⚙️ DevOps</option>
         </select>
       </div>
       <div class="input-group">
@@ -98,33 +96,30 @@
       </div>
       <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 10px;">
         <button class="secondary" onclick="closeHireModal()">Отмена</button>
-        <button onclick="hireAgent()">Нанять (<span id="hire-cost">50</span> 🪙)</button>
+        <button onclick="hireAgent()">Добавить</button>
       </div>
     </div>
   </div>
 
   <script>
-    // --- СОСТОЯНИЕ ИГРЫ ---
     const state = {
-      money: 150,
-      maxAgents: 3,
+      maxAgents: 5,
       agents: [],
       roles: {
-        developer: { name: 'Разработчик', income: 2.0, color: 0x3b82f6 },
-        designer: { name: 'Дизайнер', income: 1.5, color: 0xec4899 },
-        pm: { name: 'PM', income: 3.0, color: 0xeab308 },
-        devops: { name: 'DevOps', income: 2.5, color: 0x10b981 }
+        developer: { name: 'Разработчик', color: 0x2563eb },
+        designer: { name: 'Дизайнер', color: 0xec4899 },
+        pm: { name: 'PM', color: 0xca8a04 },
+        devops: { name: 'DevOps', color: 0x059669 }
       }
     };
 
-    // --- 3D ГРАФИКА (THREE.JS) ---
     let scene, camera, renderer, agentsGroup;
 
     function init3D() {
       const container = document.getElementById('canvas-container');
       
       scene = new THREE.Scene();
-      scene.background = new THREE.Color(0x0f172a);
+      scene.background = new THREE.Color(0xf1f5f9); // Светло-серый чистый фон
 
       const aspect = container.clientWidth / container.clientHeight;
       const d = 8;
@@ -133,19 +128,19 @@
       camera.lookAt(0, 0, 0);
 
       // Свет
-      const light = new THREE.DirectionalLight(0xffffff, 1);
+      const light = new THREE.DirectionalLight(0xffffff, 0.9);
       light.position.set(10, 20, 10);
       scene.add(light);
-      scene.add(new THREE.AmbientLight(0xffffff, 0.4));
+      scene.add(new THREE.AmbientLight(0xffffff, 0.6));
 
-      // Пол (Офис)
+      // Белый пол офиса
       const floorGeo = new THREE.PlaneGeometry(12, 10);
-      const floorMat = new THREE.MeshLambertMaterial({ color: 0x1e293b });
+      const floorMat = new THREE.MeshLambertMaterial({ color: 0xffffff });
       const floor = new THREE.Mesh(floorGeo, floorMat);
       floor.rotation.x = -Math.PI / 2;
       scene.add(floor);
 
-      // Стеклянный кабинет Директора (П-образная форма)
+      // П-образный стеклянный кабинет директора
       createGlassCabinet(-3, -2);
 
       agentsGroup = new THREE.Group();
@@ -161,7 +156,7 @@
 
     function createGlassCabinet(x, z) {
       const glassMat = new THREE.MeshPhysicalMaterial({
-        color: 0x38bdf8, transparent: true, opacity: 0.25, roughness: 0.1
+        color: 0xe2e8f0, transparent: true, opacity: 0.4, roughness: 0.1
       });
       const backWall = new THREE.Mesh(new THREE.BoxGeometry(4, 2, 0.1), glassMat);
       backWall.position.set(x, 1, z - 1.5);
@@ -183,7 +178,7 @@
       state.agents.forEach((agent, i) => {
         const group = new THREE.Group();
         
-        // Тело агента
+        // Тело
         const bodyGeo = new THREE.CylinderGeometry(0.3, 0.3, 0.8, 16);
         const bodyMat = new THREE.MeshLambertMaterial({ color: state.roles[agent.role].color });
         const body = new THREE.Mesh(bodyGeo, bodyMat);
@@ -191,16 +186,15 @@
 
         // Голова
         const headGeo = new THREE.SphereGeometry(0.25, 16, 16);
-        const headMat = new THREE.MeshLambertMaterial({ color: 0xfde047 });
+        const headMat = new THREE.MeshLambertMaterial({ color: 0xfdec6e });
         const head = new THREE.Mesh(headGeo, headMat);
         head.position.y = 0.95;
 
         group.add(body, head);
 
-        // Позиционирование по сетке
         const col = i % 3;
         const row = Math.floor(i / 3);
-        group.position.set(-2 + col * 2, 0, 1 + row * 2);
+        group.position.set(-2 + col * 2.5, 0, 1 + row * 2.5);
 
         agentsGroup.add(group);
       });
@@ -223,43 +217,28 @@
       renderer.setSize(container.clientWidth, container.clientHeight);
     }
 
-    // --- ИГРОВАЯ ЛОГИКА ---
     function updateUI() {
-      document.getElementById('money-val').innerText = Math.floor(state.money);
-      
-      const totalIncome = state.agents.reduce((sum, a) => sum + state.roles[a.role].income, 0);
-      document.getElementById('income-val').innerText = `+${totalIncome.toFixed(1)}`;
-      
       document.getElementById('agents-count').innerText = state.agents.length;
       document.getElementById('max-agents').innerText = state.maxAgents;
-      
-      const nextCost = 50 + state.agents.length * 20;
-      document.getElementById('hire-cost').innerText = nextCost;
     }
 
     function hireAgent() {
-      const cost = 50 + state.agents.length * 20;
-      if (state.money < cost) {
-        alert('Недостаточно монет!');
-        return;
-      }
       if (state.agents.length >= state.maxAgents) {
-        alert('Офис заполнен! Улучшите офис.');
+        alert('Все рабочие места заняты.');
         return;
       }
 
-      const name = document.getElementById('agent-name').value || 'Агент #' + (state.agents.length + 1);
+      const name = document.getElementById('agent-name').value || 'Сотрудник #' + (state.agents.length + 1);
       const role = document.getElementById('agent-role').value;
       const key = document.getElementById('agent-key').value;
 
-      state.money -= cost;
       state.agents.push({ name, role, key });
 
       renderAgents3D();
       updateUI();
       closeHireModal();
       
-      addLog(name, `Приступил к работе на должности ${state.roles[role].name}.`);
+      addLog(name, `Приступил к работе в должности ${state.roles[role].name}.`);
     }
 
     function addLog(author, message) {
@@ -273,29 +252,13 @@
       logsList.prepend(item);
     }
 
-    function collectBonus() {
-      const bonus = 10;
-      state.money += bonus;
-      updateUI();
-      addLog('Игрок', `Собрал быстрый бонус +${bonus} монет!`);
-    }
-
-    // Автоматический доход каждые 1 сек
-    setInterval(() => {
-      const totalIncome = state.agents.reduce((sum, a) => sum + state.roles[a.role].income, 0);
-      state.money += totalIncome;
-      updateUI();
-    }, 1000);
-
-    // Модальное окно
     function openHireModal() { document.getElementById('hire-modal').style.display = 'flex'; }
     function closeHireModal() { document.getElementById('hire-modal').style.display = 'none'; }
 
-    // Старт игры при загрузке страницы
     window.onload = () => {
       init3D();
       updateUI();
     };
   </script>
 </body>
-</html>
+            </html>
